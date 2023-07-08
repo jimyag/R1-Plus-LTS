@@ -11,9 +11,12 @@
 name: Immortalwrt R1 PLUS TLS MINI
 
 on:
-  workflow_dispatch:
-  schedule:
-    - cron: '0 0 1 * *'
+  pull_request:
+  push:
+    tags:
+      - v*
+    branches:
+      - main
         
 env:
   CONFIG_FILE: mini.config
@@ -143,6 +146,7 @@ jobs:
       if: steps.hash.outputs.REBUILD_TOOLCHAIN == 'true'
       run: |
         cd $OPENWRT_ROOT_PATH
+        git clone https://github.com/sirpdboy/luci-app-ddns-go.git package/ddns-go
         ./scripts/feeds update -a
         ./scripts/feeds install -a
         make defconfig

@@ -3,9 +3,12 @@
 name: Make Config 
 
 on:
-  workflow_dispatch:
-  schedule:
-    - cron: '0 0 1 * *'
+  pull_request:
+  push:
+    tags:
+      - v*
+    branches:
+      - main
 
 env:
   REPO_URL: https://github.com/mingxiaoyu/immortalwrt
